@@ -16,8 +16,11 @@ export interface Document {
   parentId?: string;
   isArchived: boolean;
   isPublished: boolean;
+  isFavorite: boolean;
   authorId: string;
   author: User;
+  collaborators: User[];
+  tags: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -28,8 +31,10 @@ export interface Folder {
   icon?: string;
   parentId?: string;
   isArchived: boolean;
+  isFavorite: boolean;
   authorId: string;
   author: User;
+  collaborators: User[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -46,6 +51,7 @@ export interface CreateDocumentRequest {
   parentId?: string;
   icon?: string;
   coverImage?: string;
+  content?: string;
 }
 
 export interface UpdateDocumentRequest {
@@ -55,6 +61,8 @@ export interface UpdateDocumentRequest {
   coverImage?: string;
   isArchived?: boolean;
   isPublished?: boolean;
+  isFavorite?: boolean;
+  tags?: string[];
 }
 
 export interface CreateFolderRequest {
@@ -67,6 +75,7 @@ export interface UpdateFolderRequest {
   title?: string;
   icon?: string;
   isArchived?: boolean;
+  isFavorite?: boolean;
 }
 
 export interface LoginRequest {
@@ -80,8 +89,35 @@ export interface RegisterRequest {
   password: string;
 }
 
+export interface SearchRequest {
+  query: string;
+  type?: 'document' | 'folder' | 'all';
+}
+
+export interface ShareRequest {
+  documentId: string;
+  userId: string;
+  permission: 'read' | 'write' | 'admin';
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
   error?: string;
+}
+
+export interface SearchResult {
+  documents: Document[];
+  folders: Folder[];
+  total: number;
+}
+
+export interface Theme {
+  mode: 'light' | 'dark' | 'system';
+}
+
+export interface Shortcut {
+  key: string;
+  action: string;
+  description: string;
 } 
